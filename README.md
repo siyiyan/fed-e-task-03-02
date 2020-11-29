@@ -33,14 +33,14 @@ Vue.js 源码剖析-响应式原理、虚拟 DOM、模板编译和组件化
 
 2、请简述 Vue 响应式原理。
 
-![图片1](img/2.jpeg)
+![图片1](2.jpeg)
 
 >答：
 >   - Vue.js 是一款 MVVM 框架，数据模型仅仅是普通的 JavaScript 对象，但是对这些对象进行操作时，却能影响对应视图，它的核心实现就是「响应式系统」。 Object.defineProperty，Vue.js 就是基于它实现「响应式系统」的。
 >   - getter 跟 setter 在 init 的时候通过 Object.defineProperty 进行了绑定，它使得当被设置的对象被读取的时候会执行 getter 函数，而在当被赋值的时候会执行 setter 函数。
 >   - 当 render function 被渲染的时候，因为会读取所需对象的值，所以会触发 getter 函数进行「依赖收集」，「依赖收集」的目的是将观察者 Watcher 对象存放到当前闭包中的订阅者 Dep 的 subs 中。形成如下所示的这样一个关系。
 
-![图片1](img/3.jpeg)
+![图片1](3.jpeg)
 
 >   - 在修改对象的值的时候，会触发对应的 setter， setter 通知之前「依赖收集」得到的 Dep 中的每一个 Watcher ，告诉它们自己的值改变了，需要重新渲染视图。这时候这些 Watcher 就会开始调用 update 来更新视图，当然这中间还有一个 patch 的过程以及使用队列来异步更新的策略。
 >   - 小结
